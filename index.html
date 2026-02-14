@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jastip SBH 🍓</title>
+<source src="form.html" type="text/html">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff8fb;
+    margin: 0;
+    color: #333;
+  }
+  header {
+    background: linear-gradient(90deg, #ffb6d9, #ff85b3);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    font-weight: 600;
+    font-size: 22px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  }
+  .container {
+    max-width: 480px;
+    margin: 18px auto;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 6px 14px rgba(255,182,217,0.4);
+  }
+  label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+    color: #ff5b9b;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #ffc6dc;
+    margin-top: 5px;
+    font-size: 15px;
+    background: #fffafd;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: #ff8ec3;
+    box-shadow: 0 0 5px rgba(255,142,195,0.3);
+  }
+  button {
+    width: 100%;
+    background: linear-gradient(90deg, #ff8ec3, #ff5b9b);
+    border: none;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+    border-radius: 14px;
+    font-size: 16px;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(255,142,195,0.4);
+    cursor: pointer;
+  }
+  button:hover { opacity: 0.9; }
+  .item {
+    background: #fff0f7;
+    border-left: 5px solid #ff8ec3;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  .delete-btn {
+    background: #ffe6ef;
+    color: #ff4f89;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    margin-top: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .total {
+    text-align: right;
+    font-weight: 700;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #ff5b9b;
+  }
+  .pay {
+    background: #fffafd;
+    border: 1px solid #ffd9ea;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .copy-btn {
+    background: #ffe2ef;
+    border: none;
+    color: #ff4f89;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  footer {
+    text-align: center;
+    color: #888;
+    font-size: 13px;
+    margin: 25px;
+  }
+</style>
+</head>
+<body>
+<header>🍓 Jastip SBH — Cute Pastel</header>
+
+<div class="container">
+  <label>📍 Lokasi</label>
+  <select id="lokasi">
+    <option>🏠 Dormitory SBH</option>
+    <option>🍜 Kantin SBH</option>
+    <option>🎓 Kantin Kampus</option>
+    <option>🛍 Tenant SBH</option>
+    <option>🏪 Indomaret SBH</option>
+    <option>🌆 Area Citywalk</option>
+  </select>
+
+  <label>🍔 Nama Menu</label>
+  <input id="menu" placeholder="contoh: Es Kopi Susu Gula Aren">
+
+  <label>💸 Harga per item (Rp)</label>
+  <input id="harga" type="number" placeholder="contoh: 10000">
+
+  <label>🔢 Jumlah</label>
+  <input id="jumlah" type="number" value="1" min="1">
+
+  <label>📝 Catatan</label>
+  <input id="catatan" placeholder="tanpa es / pedas sedang">
+
+  <label>🏠 Alamat/No Kamar</label>
+  <input id="alamat" placeholder="contoh: Kamar B12">
+
+
+
+  <button onclick="tambahPesanan()">+ Tambah Pesanan</button>
+
+  <div id="daftarPesanan"></div>
+  <div class="total" id="totalHarga">Total: Rp 0</div>
+
+  <hr style="margin:20px 0;">
+
+  <h3 style="color:#ff5b9b;">💳 Pembayaran</h3>
+
+  <div class="pay">
+    <div><b>DANA</b><br><small>082164386677 (KEZIA LARITA MARUHAWA)</small></div>
+    <button class="copy-btn" onclick="copyText('082164386677')">Salin</button>
+  </div>
+
+  <div class="pay">
+    <div><b>GoPay</b><br><small>082164386677 (KEZIA LARITA MARUHAWA)</small></div>
+    <button class="copy-btn" onclick="copyText('082164386677')">Salin</button>
+  </div>
+
+  <div class="pay">
+    <div><b>Sea Bank</b><br><small>901475489523 (KEZIA LARITA MARUHAWA)</small></div>
+    <button class="copy-btn" onclick="copyText('901475489523')">Salin</button>
+  </div>
+
+  <button style="background:#ffe2ef;color:#ff4f89;" onclick="hapusSemua()">🗑 Hapus Semua Pesanan</button>
+  <button onclick="buatNota()">📋 Buat Nota (Salin)</button>
+  <button onclick="kirimWhatsApp()">📲 Kirim ke WhatsApp</button>
+</div>
+
+<footer>🌸 Jastip SBH • Fee Rp4.000 per pesanan 🌸</footer>
+
+<script>
+let pesanan = [];
+const fee = 4000;
+
+function tambahPesanan(){
+  const lokasi = document.getElementById('lokasi').value;
+  const menu = document.getElementById('menu').value.trim();
+  const hargaVal = document.getElementById('harga').value;
+  const jumlahVal = document.getElementById('jumlah').value;
+  const harga = parseInt(hargaVal, 10);
+  const jumlah = parseInt(jumlahVal, 10);
+  const catatan = document.getElementById('catatan').value.trim() || '-';
+
+  if(!menu || isNaN(harga) || isNaN(jumlah) || jumlah < 1){
+    alert('Lengkapi semua data menu ya bub 💖');
+    return;
+  }
+
+  pesanan.push({lokasi, menu, harga, jumlah, catatan, total: harga * jumlah});
+  renderPesanan();
+
+  document.getElementById('menu').value='';
+  document.getElementById('harga').value='';
+  document.getElementById('jumlah').value='1';
+  document.getElementById('catatan').value='';
+}
+
+function renderPesanan(){
+  const list = document.getElementById('daftarPesanan');
+  list.innerHTML='';
+  let subtotal = 0;
+
+  pesanan.forEach((p,i)=>{
+    subtotal += p.total;
+    const div = document.createElement('div');
+    div.className='item';
+    div.innerHTML = `
+      <b>${p.menu}</b> x${p.jumlah} — Rp ${p.total.toLocaleString()}<br>
+      ${p.lokasi} • 📝 ${p.catatan}<br>
+      <button class="delete-btn" onclick="hapus(${i})">Hapus</button>
+    `;
+    list.appendChild(div);
+  });
+
+  const total = pesanan.length > 0 ? subtotal + fee : 0;
+  document.getElementById('totalHarga').textContent =
+    'Total: Rp ' + total.toLocaleString() + (pesanan.length>0 ? ' (termasuk fee Rp4.000)' : '');
+}
+
+function hapus(i){
+  pesanan.splice(i,1);
+  renderPesanan();
+}
+
+function hapusSemua(){
+  if(confirm('Hapus semua pesanan?')){
+    pesanan = [];
+    renderPesanan();
+  }
+}
+
+function copyText(txt){
+  navigator.clipboard.writeText(txt);
+  alert('Nomor disalin: ' + txt);
+}
+
+function buatNota(){
+  if(pesanan.length===0){ alert('Belum ada pesanan 😅'); return; }
+
+  let nota = '--- NOTA JASTIP SBH ---\n';
+  pesanan.forEach((p,i)=>{
+    nota += `${i+1}. ${p.menu} x${p.jumlah} = Rp ${p.total.toLocaleString()} (${p.lokasi})\n   Catatan: ${p.catatan}\n`;
+  });
+
+  const subtotal = pesanan.reduce((a,b)=>a + b.total, 0);
+  const total = subtotal + fee;
+
+  nota += `\nFee: Rp ${fee.toLocaleString()}\nTotal: Rp ${total.toLocaleString()}\n\nBayar ke:\n- DANA/GoPay: 082164386677\n- Sea Bank: 901475489523\nAtas nama: KEZIA LARITA MARUHAWA\n\nTerima kasih sudah jastip 💕`;
+
+  navigator.clipboard.writeText(nota);
+  alert('Nota sudah disalin ke clipboard 🧾');
+}
+
+function kirimWhatsApp(){
+  if(pesanan.length===0){ alert('Belum ada pesanan 😅'); return; }
+
+  let lines = ['Halo Jastip SBH,', ''];
+  pesanan.forEach((p,i)=>{
+    lines.push(`${i+1}. ${p.menu} x${p.jumlah} = Rp ${p.total.toLocaleString()} (${p.lokasi})`);
+    lines.push(`   Catatan: ${p.catatan}`);
+  });
+
+  const subtotal = pesanan.reduce((a,b)=>a + b.total, 0);
+  const total = subtotal + fee;
+
+  lines.push('');
+  lines.push(`Fee: Rp ${fee.toLocaleString()}`);
+  lines.push(`Total: Rp ${total.toLocaleString()}`);
+  lines.push('');
+  lines.push('Terima kasih 💕');
+
+  const message = encodeURIComponent(lines.join('\n'));
+  const adminNumber = '6282164386677'; // nomor WA admin (082164386677)
+
+  // Buka WhatsApp dengan pesan terisi
+  window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
+}
+</script>
+</body>
+</html>
